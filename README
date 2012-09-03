@@ -1,0 +1,41 @@
+Brasil - São Paulo - São Paulo
+Instituto de Metemática e Estatística da Universidade de São Paulo (IME - USP)
+C++, CUDA and OpenCL implementations of Runge-Kutta methods (orders 2 and 4) applied to vector fields
+
+################
+# Introduction #
+################
+
+The first prototype can be found on https://github.com/rafamanzo/runge-kutta. This new prototype has a similar architeture, but uses the VTK library instead of directly OpenGL.
+
+###########
+# LICENSE #
+###########
+
+LGPL v3.0
+Please see http://www.gnu.org/licenses/lgpl-3.0.txt
+
+##############
+# DEVELOPERS #
+##############
+
+Orientation: Assistant Professor of Computer Science MARCEL P. JACKOWSKI
+
+Development: Rafael Reggiani Manzo (CUDA and C++)
+             Giancarlo Rigo (OpenCL and C++)
+
+#######################
+# System Requirements #
+#######################
+
+To compile it you will need from CMake (www.cmake.org). Also the version 5.8.0 from the VTK library is required.
+
+#########
+# Input #
+#########
+
+./RungeKutta --analyze <image.hdr>
+
+Then you will be prompted for other params by the program.
+
+The support to Analyze was achieved by the use of the open library CImg (http://cimg.sourceforge.net/index.shtml) distributed under the CeCILL-C license (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html).
