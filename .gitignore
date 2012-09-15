@@ -14,6 +14,7 @@ runge-kutta-vtk.sublime-project
 runge-kutta-vtk.sublime-workspace
 CMakeCache.txt
 CMakeFiles
+MakeFile
 build
 RungeKutta
 cmake_install.cmake

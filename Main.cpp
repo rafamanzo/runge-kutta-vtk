@@ -3,8 +3,11 @@
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 #include <vtkImageData.h>
+#include <vtkDataSetAttributes.h>
+#include <vtkGenericStreamTracer.h>
 
 #include <Input.h>
+#include <Tracer.h>
 
 using namespace RungeKutta;
 
@@ -20,4 +23,7 @@ int main(int argc, char *argv[]){
     file = Input(argv[2], Input::ANALYZE_TYPE);
   //}
   file.parse(&h, initial_point_set, vector_field);
+
+  Tracer tracer(vector_field, initial_point_set, h);
+  vtkSmartPointer<vtkPolyData> result = tracer.trace(vtkGenericStreamTracer::RUNGE_KUTTA2);
 }
