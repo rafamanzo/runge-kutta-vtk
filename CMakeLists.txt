@@ -7,7 +7,7 @@ include(${VTK_USE_FILE})
 
 include_directories(includes)
 
-add_executable(RungeKutta MACOSX_BUNDLE Main io/input/Input io/input/AnalyzeReader core/cpp/Tracer)
+add_executable(RungeKutta MACOSX_BUNDLE Main io/input/Input io/input/AnalyzeReader core/cpp/Tracer io/output/Renderer)
 
 if(VTK_LIBRARIES)
   target_link_libraries(RungeKutta ${VTK_LIBRARIES} X11)
