@@ -27,5 +27,7 @@ vtkSmartPointer<vtkImageData> AnalyzeReader::readImage(char *file_name){
         for (int l = 0; l < img.spectrum(); l++)
           vector_field->SetScalarComponentFromDouble(i, j, k, l, img(i, j, k, l));
 
+  vector_field->Update();
+
   return vector_field;
 }

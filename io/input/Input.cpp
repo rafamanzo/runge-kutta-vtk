@@ -23,7 +23,7 @@ Input::Input(){
   _file_type = 2;
 }
 
-void Input::parse(double *h, vtkSmartPointer<vtkPolyData> initial_point_set, vtkSmartPointer<vtkImageData> vector_field){
+void Input::parse(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkImageData> *vector_field){
   //if(_file_type == NATIVE_TYPE)
   //  return parseNative(h,v0,v0_count);
   //else if(_file_type == ANALYZE_TYPE)
@@ -32,7 +32,7 @@ void Input::parse(double *h, vtkSmartPointer<vtkPolyData> initial_point_set, vtk
   //return DataSet();
 }
 
-void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> initial_point_set, vtkSmartPointer<vtkImageData> vector_field){
+void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkImageData> *vector_field){
   unsigned initial_points_count, i;
   double v_x, v_y, v_z;
 
@@ -48,10 +48,10 @@ void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> initial_point_s
 
     initial_points->InsertPoint(i, v_x, v_y, v_z);
   }
-  initial_point_set->SetPoints(initial_points);
+  (*initial_point_set)->SetPoints(initial_points);
 
   printf("\nPlease enter the step size:\n");
   scanf("%lf", h);
 
-  vector_field = AnalyzeReader::readImage(_file_name);
+  (*vector_field) = AnalyzeReader::readImage(_file_name);
 }
