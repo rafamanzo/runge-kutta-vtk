@@ -6,6 +6,8 @@
 #include <vtkPoints.h>
 #include <vtkPolyData.h>
 #include <vtkImageData.h>
+#include <vtkDataObject.h>
+#include <vtkAssignAttribute.h>
 
 #include <AnalyzeReader.h>
 #include <Input.h>
@@ -23,7 +25,7 @@ Input::Input(){
   _file_type = 2;
 }
 
-void Input::parse(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkImageData> *vector_field){
+void Input::parse(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkDataObject> *vector_field){
   //if(_file_type == NATIVE_TYPE)
   //  return parseNative(h,v0,v0_count);
   //else if(_file_type == ANALYZE_TYPE)
@@ -32,11 +34,12 @@ void Input::parse(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vt
   //return DataSet();
 }
 
-void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkImageData> *vector_field){
+void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> *initial_point_set, vtkSmartPointer<vtkDataObject> *vector_field){
   unsigned initial_points_count, i;
   double v_x, v_y, v_z;
 
   vtkSmartPointer<vtkPoints> initial_points = vtkSmartPointer<vtkPoints>::New();
+  vtkSmartPointer<vtkAssignAttribute> vector_field_attribute = vtkSmartPointer<vtkAssignAttribute>::New();
 
   printf("\nPlease enter the initial points count:\n");
   scanf("%u", &initial_points_count);
@@ -53,5 +56,10 @@ void Input::parseAnalyze(double *h, vtkSmartPointer<vtkPolyData> *initial_point_
   printf("\nPlease enter the step size:\n");
   scanf("%lf", h);
 
-  (*vector_field) = AnalyzeReader::readImage(_file_name);
+  vtkSmartPointer<vtkImageData> vector_field_image_data = AnalyzeReader::readImage(_file_name);
+
+  vector_field_attribute->SetInput(vector_field_image_data);
+  vector_field_attribute->Assign(vtkDataSetAttributes::SCALARS, vtkDataSetAttributes::VECTORS, vtkAssignAttribute::POINT_DATA);
+
+  (*vector_field) = vector_field_attribute->GetOutput();
 }

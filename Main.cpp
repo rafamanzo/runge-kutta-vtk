@@ -3,10 +3,13 @@
 
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
-#include <vtkImageData.h>
+#include <vtkDataObject.h>
 #include <vtkDataSetAttributes.h>
 #include <vtkRungeKutta2.h>
 #include <vtkStreamLine.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindowInteractor.h>
 
 #include <Input.h>
 #include <Tracer.h>
@@ -17,10 +20,9 @@ using namespace RungeKutta;
 int main(int argc, char *argv[]){
   double h;
   vtkSmartPointer<vtkPolyData> initial_point_set = vtkSmartPointer<vtkPolyData>::New();
-  vtkSmartPointer<vtkImageData> vector_field = vtkSmartPointer<vtkImageData>::New();
+  vtkSmartPointer<vtkDataObject> vector_field = vtkSmartPointer<vtkDataObject>::New();
   vtkSmartPointer<vtkRungeKutta2> algorithm = vtkSmartPointer<vtkRungeKutta2>::New();
   Input file;
-  Renderer renderer;
 
   //if(argc <= 2 && strcmp(argv[1], "--analyze") != 0){
   //  file = Input(argv[1], Input::NATIVE_TYPE);
@@ -32,6 +34,8 @@ int main(int argc, char *argv[]){
 
   Tracer tracer(vector_field, initial_point_set, h);
   vtkSmartPointer<vtkPolyData> fibers_rk2 = tracer.trace(algorithm);
+  vtkSmartPointer<vtkPolyData> fibers_rk4 = tracer.trace(algorithm);
 
-  renderer.render(fibers_rk2);
+  Renderer renderer(vector_field, fibers_rk2, fibers_rk4);
+  renderer.render();
 }
