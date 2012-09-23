@@ -7,6 +7,8 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderer.h>
 #include <vtkRenderWindowInteractor.h>
+#include <vtkGlyph3D.h>
+#include <vtkArrowSource.h>
 
 #include <Renderer.h>
 
@@ -44,7 +46,22 @@ void Renderer::renderRK4Fibers(){
   _renderer->AddActor(actor);
 }
 
-void Renderer::renderVectorField(){}
+void Renderer::renderVectorField(){
+  vtkSmartPointer<vtkArrowSource> shape = vtkSmartPointer<vtkArrowSource>::New();
+  vtkSmartPointer<vtkGlyph3D> vector_field = vtkSmartPointer<vtkGlyph3D>::New();
+  vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+  vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+
+  vector_field->SetInput(_vector_field);
+  vector_field->SetSource(shape->GetOutput());
+  vector_field->SetScaleModeToScaleByVector();
+  vector_field->SetScaleFactor(0.1);
+
+  mapper->SetInput(vector_field->GetOutput());
+  actor->SetMapper(mapper);
+
+  _renderer->AddActor(actor);
+}
 
 void Renderer::render(){
   renderRK2Fibers();
