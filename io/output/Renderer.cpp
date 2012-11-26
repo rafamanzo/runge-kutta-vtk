@@ -9,6 +9,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkGlyph3D.h>
 #include <vtkArrowSource.h>
+#include <vtkProperty.h>
 
 #include <Renderer.h>
 
@@ -51,14 +52,21 @@ void Renderer::renderVectorField(){
   vtkSmartPointer<vtkGlyph3D> vector_field = vtkSmartPointer<vtkGlyph3D>::New();
   vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
   vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+  vtkSmartPointer<vtkProperty> property = vtkSmartPointer<vtkProperty>::New();
+
 
   vector_field->SetInput(_vector_field);
   vector_field->SetSource(shape->GetOutput());
   vector_field->SetScaleModeToScaleByVector();
   vector_field->SetScaleFactor(0.1);
+  vector_field->Update();
 
   mapper->SetInput(vector_field->GetOutput());
+  mapper->ScalarVisibilityOff();
   actor->SetMapper(mapper);
+  property = actor->GetProperty();
+  property->SetColor(0.5,0.5,0.5);
+  actor->SetProperty(property);
 
   _renderer->AddActor(actor);
 }
